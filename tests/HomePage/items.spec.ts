@@ -1,6 +1,5 @@
 import { test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
-import { LoginPage } from '../../pages/loginPage';
 import { HomePage} from '../../pages/homePage';
 
 
