@@ -1,6 +1,4 @@
-import { test, expect, Page, Locator } from '@playwright/test';
-import { loginData } from '../data/loginData';
-
+import { Page, Locator } from '@playwright/test';
 
 export class LoginPage {
 
@@ -27,10 +25,10 @@ export class LoginPage {
         await this.page.goto(this.logInPageURL);
     }
 
-    async performLogin() {
+    async performLogin(email: string, password: string) {
         await this.page.goto(this.logInPageURL);
-        await this.emailInput.fill(loginData.standardUser.email);
-        await this.passwordInput.fill(loginData.standardUser.password);
+        await this.emailInput.fill(email);
+        await this.passwordInput.fill(password);
         await this.loginButton.click();
     }
 

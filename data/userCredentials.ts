@@ -1,5 +1,5 @@
 
-export const loginData = {
+export const userCredentials = {
     standardUser: { 
         email: "standard_user",
         password: "secret_sauce"},

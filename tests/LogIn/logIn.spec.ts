@@ -1,7 +1,7 @@
 import { test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
 import { LoginPage } from '../../pages/loginPage';
-import { loginData } from '../../data/loginData';
+import { userCredentials } from '../../data/userCredentials';
 
 
 test('Log in with valid userData', async ({ page, logIn }) => {
@@ -12,13 +12,13 @@ test('Log in with valid userData', async ({ page, logIn }) => {
 });
 
 
-//sooo...i made a test but now im not sure if its a good practice to make test like this.
+//so...i made a test but now im not sure if its a good practice to make test like this.
 //Cause if potentially one of rotation is failed how do i know which one is failed?
 test('Log in with invalid userData', async ({ page }) => {
   
 const loginPage = new LoginPage(page)
-const invalidData = [loginData.lockedOutUser, loginData.invalidUser, 
-    loginData.invalidEmail, loginData.invalidPassword];
+const invalidData = [userCredentials.lockedOutUser, userCredentials.invalidUser, 
+    userCredentials.invalidEmail, userCredentials.invalidPassword];
 
     for (let data of invalidData) {
         await loginPage.navigateToLoginPage();
