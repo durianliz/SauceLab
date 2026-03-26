@@ -1,24 +1,26 @@
 import { test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
 import { LoginPage } from '../../pages/loginPage';
+import { HomePage } from '../../pages/homePage';
 import { userCredentials } from '../../data/userCredentials';
 
 
 test('Log in with valid userData', async ({ page, logIn }) => {
 
+    const homePage = new HomePage(page);
+
     await expect(page.locator('.title')).toBeVisible();
-    await expect(page).toHaveURL(logIn.homePageURL);
+    await expect(page).toHaveURL(homePage.homePageURL);
 
 });
 
 
-//so...i made a test but now im not sure if its a good practice to make test like this.
-//Cause if potentially one of rotation is failed how do i know which one is failed?
+
 test('Log in with invalid userData', async ({ page }) => {
   
 const loginPage = new LoginPage(page)
-const invalidData = [userCredentials.lockedOutUser, userCredentials.invalidUser, 
-    userCredentials.invalidEmail, userCredentials.invalidPassword];
+const invalidData = [{...userCredentials.lockedOutUser, type: 'locked out user'}, {...userCredentials.invalidUser, type: 'invalid user'}, 
+    {...userCredentials.invalidEmail, type: 'invalid email'}, {...userCredentials.invalidPassword, type: 'invalid password'}];
 
     for (let data of invalidData) {
         await loginPage.navigateToLoginPage();
@@ -26,8 +28,8 @@ const invalidData = [userCredentials.lockedOutUser, userCredentials.invalidUser,
         await loginPage.passwordInput.fill(data.password);
          await loginPage.loginButton.click();
 
-         await expect(loginPage.error).toBeVisible();
-         await expect(page).toHaveURL(loginPage.logInPageURL);
+         await expect(loginPage.error, `Expected error message for ${data.type}`).toBeVisible();
+         await expect(page, `Expected URL for ${data.type}`).toHaveURL(loginPage.logInPageURL);
          
     }
 });

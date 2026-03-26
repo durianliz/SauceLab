@@ -7,7 +7,6 @@ export class LoginPage {
     passwordInput: Locator;
     loginButton: Locator;
     error: Locator;
-    homePageURL: string;
     logInPageURL: string;
     
     constructor(page: Page) 
@@ -17,7 +16,6 @@ export class LoginPage {
         this.passwordInput = this.page.locator('#password');
         this.loginButton = this.page.locator('#login-button');
         this.error = this.page.locator('.error-button');
-        this.homePageURL = 'https://www.saucedemo.com/inventory.html';
         this.logInPageURL = 'https://www.saucedemo.com/';
     }
 
