@@ -18,6 +18,7 @@ export class HomePage {
     constructor(page: Page) {
 
         this.page = page;
+        this.homePageURL = 'https://www.saucedemo.com/inventory.html'
 
         this.cart =this.page.locator('.shopping_cart_link');
         this.burgerMenu = this.page.locator('#react-burger-menu-btn');
