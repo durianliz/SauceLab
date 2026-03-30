@@ -1,6 +1,0 @@
-{
-    "email": "standard_user",
-    "password": "secret_sauce",
-    "invalidEmail": "invalid_user",
-    "invalidPassword": "invalid_password"
-}
