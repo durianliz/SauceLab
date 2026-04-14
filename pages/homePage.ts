@@ -48,4 +48,9 @@ export class HomePage {
     async getItemsPrices() {
         return await this.page.locator('.inventory_item_price').allTextContents();
     }
+
+    async addItemToCartByName(name: string) {
+        const item = this.page.locator('.inventory_item', { hasText: name });
+        await item.locator('button', { hasText: /add to cart/i }).click();
+    }
 }
