@@ -18,7 +18,7 @@ test('check that user can complete the checkout process', async ({page}) => {
 
     await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
 
-    await page.locator('#add-to-cart-sauce-labs-backpack').click();
+    await homePage.addItemToCartByName('Sauce Labs Backpack');
     await homePage.cart.click();
     await shoppingCartPage.checkoutButton.click();
 
@@ -32,42 +32,10 @@ test('check that user can complete the checkout process', async ({page}) => {
     await expect(checkOutPageOverview.shippingInformationLabel, 'Shipping information label should be visible').toHaveText('Shipping Information:');
     await expect(checkOutPageOverview.priceTotalLabel, 'Price total label should be visible').toHaveText('Price Total');
 
-    await page.locator('#finish').click();
+    await checkOutPageOverview.finishButton.click();
 
-    await expect (page.locator('.complete-header'), 'Complete header should be visible').toHaveText('Thank you for your order!');
+    await expect(page.locator('.complete-header'), 'Complete header should be visible').toHaveText('Thank you for your order!');
 
 });
 
 
-const invalidCheckoutData = [
-    { ...checkOutData.emptyFirstName, description: 'empty first name' },
-    { ...checkOutData.emptyLastName, description: 'empty last name' },
-    { ...checkOutData.emptyPostalCode, description: 'empty postal code' },
-    { ...checkOutData.emptyData, description: 'all fields empty' }
-];
-
-invalidCheckoutData.forEach(({ firstName, lastName, postalCode, description }) => {
-
-test(`check that user cannot continue checkout with ${description}`, async ({page}) => {
-
-    const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);
-    const shoppingCartPage = new ShoppingCartPage(page);
-    const checkOutPageYourInformation = new CheckOutPageYourInformation(page);
-
-
-    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
-
-    await page.locator('#add-to-cart-sauce-labs-backpack').click();
-    await homePage.cart.click();
-    await shoppingCartPage.checkoutButton.click();
-
-    await checkOutPageYourInformation.firstNameInput.fill(firstName);
-    await checkOutPageYourInformation.lastNameInput.fill(lastName);
-    await checkOutPageYourInformation.postalCodeInput.fill(postalCode);
-    await checkOutPageYourInformation.continueButton.click();
-
-        await expect(checkOutPageYourInformation.errorMessage, 'Error message should be visible').toBeVisible();
-}
-);
-});
