@@ -1,4 +1,18 @@
-export const checkOutData = {
+export interface CheckOutFormData {
+    firstName: string;
+    lastName: string;
+    postalCode: string;
+}
+
+export interface CheckOutData {
+    standardData: CheckOutFormData;
+    emptyData: CheckOutFormData;
+    emptyFirstName: CheckOutFormData;
+    emptyLastName: CheckOutFormData;
+    emptyPostalCode: CheckOutFormData;
+}
+
+export const checkOutData: CheckOutData = {
     standardData: {
         firstName: 'MyName',
         lastName: 'MyLastName',
@@ -28,6 +42,4 @@ export const checkOutData = {
         lastName: 'MyLastName',
         postalCode: ''
     }
-
-
 };

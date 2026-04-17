@@ -8,6 +8,7 @@ export class CheckOutPageYourInformation {
     lastNameInput: Locator;
     postalCodeInput: Locator;
     continueButton: Locator;
+    cencelButton: Locator;
     errorMessage: Locator;   
     
     constructor(page: Page) {
@@ -17,6 +18,7 @@ export class CheckOutPageYourInformation {
         this.lastNameInput = this.page.locator('#last-name');
         this.postalCodeInput = this.page.locator('#postal-code');
         this.continueButton = this.page.locator('#continue');
+        this.cencelButton = this.page.locator('#cancel');
         this.errorMessage = this.page.locator('.error-message-container');
     }
 

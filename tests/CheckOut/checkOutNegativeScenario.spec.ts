@@ -39,3 +39,19 @@ test(`check that user cannot continue checkout with ${description}`, async ({pag
 }
 );
 });
+
+test ('check that user cannot checkout with empty cart', async ({page}) => {
+
+    const homePage = new HomePage(page);
+    const loginPage = new LoginPage(page);
+    const shoppingCartPage = new ShoppingCartPage(page);
+    const checkOutPageYourInformation = new CheckOutPageYourInformation(page);
+
+
+    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
+
+    await homePage.cart.click();
+    await shoppingCartPage.checkoutButton.click();
+    await expect(checkOutPageYourInformation.errorMessage, 'Error message should be visible').toHaveText('Error: Your cart is empty');
+
+});

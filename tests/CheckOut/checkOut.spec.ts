@@ -39,3 +39,25 @@ test('check that user can complete the checkout process', async ({page}) => {
 });
 
 
+test('check that user can cencel the checkout process', async ({page}) => {
+
+const homePage = new HomePage(page);
+    const loginPage = new LoginPage(page);
+    const shoppingCartPage = new ShoppingCartPage(page);
+    const checkOutPageYourInformation = new CheckOutPageYourInformation(page);
+    const checkOutPageOverview = new CheckOutPageOverview(page);
+
+    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
+
+    await homePage.addItemToCartByName('Sauce Labs Backpack');
+    await homePage.cart.click();
+    await shoppingCartPage.checkoutButton.click();
+
+    await expect(checkOutPageYourInformation.cencelButton, 'Cancel button should be visible').toBeVisible();
+
+    await checkOutPageYourInformation.cencelButton.click();
+    await expect(page.locator('.title'), 'Shopping Cart Title should be visible').toHaveText('Your Cart');
+    await expect(shoppingCartPage.checkoutButton, 'Checkout button should be visible').toBeVisible();
+
+});
+
