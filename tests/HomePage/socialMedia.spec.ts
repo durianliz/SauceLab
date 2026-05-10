@@ -1,48 +1,47 @@
-import { test } from '../../fixture/fixture';
-import { expect } from '@playwright/test';
-import { LoginPage } from '../../pages/loginPage';
-import { HomePage } from '../../pages/homePage';
+import { test, expect } from '@playwright/test';
+import { testFixture } from '../../fixture/fixture';
+import { userCredentials } from '../../data/userCredentials';
 
-test('check that X-socialMediaLink is functional', async ({page, logIn}) => { 
+testFixture('check that X-socialMediaLink is functional', async ({ application }) => { 
 
-    const homePage = new HomePage(page);
-
-    
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
     
     const [newPage] = await Promise.all([
-        page.waitForEvent('popup'),
-        await homePage.X_socialMediaLink.click(),
+        application.page.waitForEvent('popup'),
+        await application.homePage.X_socialMediaLink.click(),
     ]);
 
-    await expect(newPage).toHaveURL(homePage.XURL);
+    await expect(newPage).toHaveURL(application.homePage.XURL);
 });
 
 
-test('check that facebook-socialMediaLink is functional', async ({page, logIn}) => { 
+testFixture('check that facebook-socialMediaLink is functional', async ({ application }) => { 
 
-    const homePage = new HomePage(page);
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);    
 
-    
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
     
     const [newPage] = await Promise.all([
-        page.waitForEvent('popup'),
-        await homePage.facebook_socialMediaLink.click(),
+        application.page.waitForEvent('popup'),
+        await application.homePage.facebook_socialMediaLink.click(),
     ]);
 
-    await expect(newPage).toHaveURL(homePage.facebookURL);
+    await expect(newPage).toHaveURL(application.homePage.facebookURL);
 });
 
 
-test('check that linkedIn-socialMediaLink is functional', async ({page, logIn}) => { 
+testFixture('check that linkedIn-socialMediaLink is functional', async ({ application }) => { 
 
-    const homePage = new HomePage(page);
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);            
 
-    
-    
+
+
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
+
     const [newPage] = await Promise.all([
-        page.waitForEvent('popup'),
-        await homePage.linkedIn_socialMediaLink.click(),
+        application.page.waitForEvent('popup'),
+        await application.homePage.linkedIn_socialMediaLink.click(),
     ]);
 
-    await expect(newPage).toHaveURL(homePage.linkedInURL);
+    await expect(newPage).toHaveURL(application.homePage.linkedInURL);
 });

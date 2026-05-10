@@ -1,24 +1,20 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../../pages/homePage';
-import { LoginPage } from '../../pages/loginPage';
+import { expect } from '@playwright/test';
 import { userCredentials } from '../../data/userCredentials';
+import { testFixture } from '../../fixture/fixture';
 
 
 
-test('check that customer can sort products by price (Lohi)', async ({page}) =>  {
-
-    const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);  
+testFixture('check that customer can sort products by price (Lohi)', async ({ application }) =>  {
 
 
-    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
 
-    const prices = await homePage.getItemsPrices();
+    const prices = await application.homePage.getItemsPrices();
     const expectedSortedLohi = prices.map(p => parseFloat(p.replace('$', ''))).sort((a, b) => a - b);
 
-    await homePage.productSort.selectOption('lohi');
+    await application.homePage.productSort.selectOption('lohi');
 
-    const actualSortedLohi = await homePage.getItemsPrices();
+    const actualSortedLohi = await application.homePage.getItemsPrices();
 
     const actualSortedLohiNumbers = actualSortedLohi.map(p => parseFloat(p.replace('$', '')));
 
@@ -28,20 +24,17 @@ test('check that customer can sort products by price (Lohi)', async ({page}) => 
 );
 
 
-test('check that customer can sort products by price (Hilo)', async ({page}) =>  {
-
-    const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);  
+testFixture('check that customer can sort products by price (Hilo)', async ({ application }) =>  {
 
 
-    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
-
-    const prices = await homePage.getItemsPrices();
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
+        
+    const prices = await application.homePage.getItemsPrices();
     const expectedSortedHilo = prices.map(p => parseFloat(p.replace('$', ''))).sort((a, b) => b - a);
 
-    await homePage.productSort.selectOption('hilo');
+    await application.homePage.productSort.selectOption('hilo');
 
-    const actualSortedHilo = await homePage.getItemsPrices();
+    const actualSortedHilo = await application.homePage.getItemsPrices();
 
     const actualSortedHiloNumbers = actualSortedHilo.map(p => parseFloat(p.replace('$', '')));
 

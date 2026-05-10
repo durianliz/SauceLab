@@ -1,7 +1,6 @@
-import { test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
-import { LoginPage } from '../../pages/loginPage';
-import { HomePage} from '../../pages/homePage';
+import { testFixture } from '../../fixture/fixture';
+import { userCredentials } from '../../data/userCredentials';
 
 
 const expectedItemsNames = [
@@ -13,15 +12,14 @@ const expectedItemsNames = [
     'Test.allTheThings() T-Shirt (Red)'
   ];
 
-test('check that expected items visible on home page', async ({page, logIn}) => {
+testFixture('check that expected items visible on home page', async ({ application }) => {
 
-    const homePage = new HomePage(page);
-    
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
 
-    const productsCount = await homePage.itemsNames.count();
+    const productsCount = await application.homePage.itemsNames.count();
     
     for (let i = 0; i < productsCount; i++) {
-        await expect(homePage.itemsNames.nth(i)).toHaveText(expectedItemsNames[i]);
+        await expect(application.homePage.itemsNames.nth(i)).toHaveText(expectedItemsNames[i]);
     }
 
 

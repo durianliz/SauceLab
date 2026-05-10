@@ -1,8 +1,9 @@
 import { Page, Locator } from '@playwright/test';
+import { AppComponent } from './appComponent';
 
-export class HomePage {
 
-        page: Page;
+export class HomePage extends AppComponent {
+
         homePageURL: string;
         homePageTitle: Locator;
 
@@ -22,8 +23,9 @@ export class HomePage {
 
     constructor(page: Page) {
 
+        super(page);
         this.page = page;
-        this.homePageURL = 'https://www.saucedemo.com/inventory.html'
+        this.homePageURL = '/inventory.html'
         this.homePageTitle = this.page.getByText('Swag Labs')
 
         this.cart =this.page.locator('.shopping_cart_link');
@@ -49,3 +51,4 @@ export class HomePage {
         return await this.page.locator('.inventory_item_price').allTextContents();
     }
 }
+

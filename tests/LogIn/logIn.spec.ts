@@ -1,19 +1,15 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/loginPage';
-import { HomePage } from '../../pages/homePage';
 import { userCredentials } from '../../data/userCredentials';
+import { testFixture } from '../../fixture/fixture';
 
 
-test('Log in with valid userData', async ({ page }) => {
+testFixture('Log in with valid userData', async ({ application }) => {  
 
-    const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);
+    await application.loginPage.navigateToLoginPage();
+    await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
 
-    await loginPage.navigateToLoginPage();
-    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
-
-    await expect(page.locator('.title')).toBeVisible();
-    await expect(page).toHaveURL(homePage.homePageURL);
+    await expect(application.page.locator('.title')).toBeVisible();
+    await expect(application.page).toHaveURL(application.homePage.homePageURL);
 
 });
 
@@ -23,17 +19,15 @@ const invalidData = [{ ...userCredentials.lockedOutUser, type: 'locked out user'
 { ...userCredentials.invalidEmail, type: 'invalid email' }, { ...userCredentials.invalidPassword, type: 'invalid password' }];
 
 invalidData.forEach((data) => {
-    test(`Log in with invalid ${data.type}`, async ({ page }) => {
+    testFixture(`Log in with invalid ${data.type}`, async ({ application }) => {
 
-        const loginPage = new LoginPage(page)
+        await application.loginPage.navigateToLoginPage();
+        await application.loginPage.emailInput.fill(data.email);
+        await application.loginPage.passwordInput.fill(data.password);
+        await application.loginPage.loginButton.click();
 
-        await loginPage.navigateToLoginPage();
-        await loginPage.emailInput.fill(data.email);
-        await loginPage.passwordInput.fill(data.password);
-        await loginPage.loginButton.click();
-
-        await expect(loginPage.error, `Expected error message for ${data.type}`).toBeVisible();
-        await expect(page, `Expected URL for ${data.type}`).toHaveURL(loginPage.logInPageURL);
+        await expect(application.loginPage.error, `Expected error message for ${data.type}`).toBeVisible();
+        await expect(application.page, `Expected URL for ${data.type}`).toHaveURL(application.loginPage.logInPageURL);
 
 
     });
