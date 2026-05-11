@@ -1,10 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../../pages/homePage';
-import { LoginPage } from '../../pages/loginPage';
-import { ShoppingCartPage } from '../../pages/shoppingCart';
+import { testFixture } from '../../fixture/fixture';
+import { expect } from '@playwright/test';
 import { userCredentials } from '../../data/userCredentials';
 import { checkOutData } from '../../data/checkOutData';
-import { CheckOutPageYourInformation } from '../../pages/checkOutYourInformation';
 
 
 const invalidCheckoutData = [
@@ -16,42 +13,26 @@ const invalidCheckoutData = [
 
 invalidCheckoutData.forEach(({ firstName, lastName, postalCode, description, error }) => {
 
-test(`check that user cannot continue checkout with ${description}`, async ({page}) => {
+testFixture(`check that user cannot continue checkout with ${description}`, async ({application}) => {
 
-    const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);
-    const shoppingCartPage = new ShoppingCartPage(page);
-    const checkOutPageYourInformation = new CheckOutPageYourInformation(page);
+    await application.homePage.addItemToCartByName('Sauce Labs Backpack');
+    await application.homePage.cart.click();
+    await application.shoppingCart.checkoutButton.click();
 
+    await application.checkOutPageYourInformation.firstNameInput.fill(firstName);
+    await application.checkOutPageYourInformation.lastNameInput.fill(lastName);
+    await application.checkOutPageYourInformation.postalCodeInput.fill(postalCode);
+    await application.checkOutPageYourInformation.continueButton.click();
 
-    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
-
-    await homePage.addItemToCartByName('Sauce Labs Backpack');
-    await homePage.cart.click();
-    await shoppingCartPage.checkoutButton.click();
-
-    await checkOutPageYourInformation.firstNameInput.fill(firstName);
-    await checkOutPageYourInformation.lastNameInput.fill(lastName);
-    await checkOutPageYourInformation.postalCodeInput.fill(postalCode);
-    await checkOutPageYourInformation.continueButton.click();
-
-        await expect(checkOutPageYourInformation.errorMessage, 'Error message should be visible').toHaveText(error);
+        await expect(application.checkOutPageYourInformation.errorMessage, 'Error message should be visible').toHaveText(error);
 }
 );
 });
 
-test ('check that user cannot checkout with empty cart', async ({page}) => {
+testFixture ('check that user cannot checkout with empty cart', async ({application}) => {
 
-    const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);
-    const shoppingCartPage = new ShoppingCartPage(page);
-    const checkOutPageYourInformation = new CheckOutPageYourInformation(page);
-
-
-    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
-
-    await homePage.cart.click();
-    await shoppingCartPage.checkoutButton.click();
-    await expect(checkOutPageYourInformation.errorMessage, 'Error message should be visible').toHaveText('Error: Your cart is empty');
+    await application.homePage.cart.click();
+    await application.shoppingCart.checkoutButton.click();
+    await expect(application.checkOutPageYourInformation.errorMessage, 'Error message should be visible').toHaveText('Error: Your cart is empty');
 
 });
