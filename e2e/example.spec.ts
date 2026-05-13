@@ -1,14 +1,14 @@
-import { testFixture } from '../fixture/fixture';
+import { testFixture as test } from '../fixture/fixture';
 import { expect } from '@playwright/test';
 
-testFixture('has title', async ({ application }) => {
+test('has title', async ({ application }) => {
   await application.page.goto('https://playwright.dev/');
 
   // Expect a title "to contain" a substring.
   await expect(application.page).toHaveTitle(/Playwright/);
 });
 
-testFixture('get started link', async ({ application }) => {
+test('get started link', async ({ application }) => {
   await application.page.goto('https://playwright.dev/');
 
   // Click the get started link.

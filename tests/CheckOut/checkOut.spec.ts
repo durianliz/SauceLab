@@ -1,10 +1,10 @@
-import { testFixture } from '../../fixture/fixture';
+import { testFixture as test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
 import { userCredentials } from '../../data/userCredentials';
 import { checkOutData } from '../../data/checkOutData';
 
 
-testFixture('check that user can complete the checkout process', async ({application}) => {
+test('check that user can complete the checkout process', async ({application}) => {
 
     await application.homePage.addItemToCartByName('Sauce Labs Backpack');
     await application.homePage.cart.click();
@@ -27,7 +27,7 @@ testFixture('check that user can complete the checkout process', async ({applica
 });
 
 
-testFixture('check that user can cencel the checkout process', async ({application}) => {
+test('check that user can cencel the checkout process', async ({application}) => {
 
     await application.homePage.addItemToCartByName('Sauce Labs Backpack');
     await application.homePage.cart.click();

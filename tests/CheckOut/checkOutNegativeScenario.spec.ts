@@ -1,4 +1,4 @@
-import { testFixture } from '../../fixture/fixture';
+import { testFixture as test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
 import { userCredentials } from '../../data/userCredentials';
 import { checkOutData } from '../../data/checkOutData';
@@ -13,7 +13,7 @@ const invalidCheckoutData = [
 
 invalidCheckoutData.forEach(({ firstName, lastName, postalCode, description, error }) => {
 
-testFixture(`check that user cannot continue checkout with ${description}`, async ({application}) => {
+test(`check that user cannot continue checkout with ${description}`, async ({application}) => {
 
     await application.homePage.addItemToCartByName('Sauce Labs Backpack');
     await application.homePage.cart.click();
@@ -29,7 +29,7 @@ testFixture(`check that user cannot continue checkout with ${description}`, asyn
 );
 });
 
-testFixture ('check that user cannot checkout with empty cart', async ({application}) => {
+test ('check that user cannot checkout with empty cart', async ({application}) => {
 
     await application.homePage.cart.click();
     await application.shoppingCart.checkoutButton.click();

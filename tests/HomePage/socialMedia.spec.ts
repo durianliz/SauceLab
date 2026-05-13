@@ -1,8 +1,7 @@
-import { userCredentials } from '../../data/userCredentials';
-import { testFixture } from '../../fixture/fixture';
+import { testFixture as test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
 
-testFixture('check that X-socialMediaLink is functional', async ({application}) => { 
+test('check that X-socialMediaLink is functional', async ({application}) => { 
 
 
     const [newPage] = await Promise.all([
@@ -14,7 +13,7 @@ testFixture('check that X-socialMediaLink is functional', async ({application}) 
 });
 
 
-testFixture('check that facebook-socialMediaLink is functional', async ({application}) => { 
+test('check that facebook-socialMediaLink is functional', async ({application}) => { 
 
 
     const [newPage] = await Promise.all([
@@ -26,7 +25,7 @@ testFixture('check that facebook-socialMediaLink is functional', async ({applica
 });
 
 
-testFixture('check that linkedIn-socialMediaLink is functional', async ({application}) => { 
+test('check that linkedIn-socialMediaLink is functional', async ({application}) => { 
 
     const [newPage] = await Promise.all([
         application.page.waitForEvent('popup'),

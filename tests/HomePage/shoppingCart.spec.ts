@@ -1,9 +1,8 @@
-import { userCredentials } from '../../data/userCredentials';
-import { testFixture } from '../../fixture/fixture';
+import { testFixture as test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
 
 
-testFixture('check that user can add item to cart', async ({ application }) => {
+test('check that user can add item to cart', async ({ application }) => {
 
     await application.homePage.addToCartBackpack.click();
 
@@ -15,7 +14,7 @@ testFixture('check that user can add item to cart', async ({ application }) => {
 
 })
 
-testFixture('check that user can remove item from cart', async ({ application }) => {
+test('check that user can remove item from cart', async ({ application }) => {
 
     await application.homePage.addToCartBackpack.click();
     await expect(application.shoppingCart.cartBadge).toHaveText('1');

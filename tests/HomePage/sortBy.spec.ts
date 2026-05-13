@@ -1,10 +1,9 @@
-import { testFixture } from '../../fixture/fixture';
+import { testFixture as test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
-import { userCredentials } from '../../data/userCredentials';
 
 
 
-testFixture('check that customer can sort products by price (Lohi)', async ({application}) =>  {
+test('check that customer can sort products by price (Lohi)', async ({application}) =>  {
 
     const prices = await application.homePage.getItemsPrices();
     const expectedSortedLohi = prices.map(p => parseFloat(p.replace('$', ''))).sort((a, b) => a - b);
@@ -21,7 +20,7 @@ testFixture('check that customer can sort products by price (Lohi)', async ({app
 );
 
 
-testFixture('check that customer can sort products by price (Hilo)', async ({application}) =>  {
+test('check that customer can sort products by price (Hilo)', async ({application}) =>  {
 
     const prices = await application.homePage.getItemsPrices();
     const expectedSortedHilo = prices.map(p => parseFloat(p.replace('$', ''))).sort((a, b) => b - a);

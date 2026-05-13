@@ -1,9 +1,9 @@
-import { testFixture } from '../../fixture/fixture';
+import { testFixture as test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
 import { userCredentials } from '../../data/userCredentials';
 
 
-testFixture('Log in with valid userData', async ({ application }) => {
+test('Log in with valid userData', async ({ application }) => {
 
     await application.loginPage.navigateToLoginPage();
     await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
@@ -19,7 +19,7 @@ const invalidData = [{ ...userCredentials.lockedOutUser, type: 'locked out user'
 { ...userCredentials.invalidEmail, type: 'invalid email' }, { ...userCredentials.invalidPassword, type: 'invalid password' }];
 
 invalidData.forEach((data) => {
-    testFixture(`Log in with invalid ${data.type}`, async ({ application }) => {
+    test(`Log in with invalid ${data.type}`, async ({ application }) => {
 
         await application.loginPage.navigateToLoginPage();
         await application.loginPage.emailInput.fill(data.email);
