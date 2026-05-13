@@ -1,4 +1,4 @@
-import { testFixture } from '../../fixture/fixture';
+import { testFixture as test} from '../../fixture/fixture';
 import { expect } from '@playwright/test';
 
 
@@ -11,7 +11,7 @@ const expectedItemsNames = [
     'Test.allTheThings() T-Shirt (Red)'
   ];
 
-testFixture('check that expected items visible on home page', async ({application}) => {
+test('check that expected items visible on home page', async ({application}) => {
 
     const productsCount = await application.homePage.itemsNames.count();
     
