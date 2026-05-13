@@ -1,26 +1,14 @@
-import { test as base } from '@playwright/test'
-import { LoginPage } from '../pages/loginPage';
-import { getLoginData } from '../tests/LogIn/getLogin-Data';
+import { test } from '@playwright/test';
+import { Application } from '../pages/index.ts';
+import { userCredentials } from '../data/userCredentials.ts';
 
-
-
-type fixture = {
-logIn: LoginPage;
+export const testFixture = test.extend<{
+    application: Application
+}>({
+application: async ({ page }, use) => {
+ const application = new Application(page);
+  await application.loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
+    
+ await use(application);
 }
-
-export const test = base.extend<fixture>({
-
-    logIn: async ({ page }, use) => {
-        const loginPage = new LoginPage(page);
-         const { email, password } = getLoginData();
-                await loginPage.navigateToLoginPage();
-                await loginPage.emailInput.fill(email);
-                await loginPage.passwordInput.fill(password);
-                await loginPage.loginButton.click();
-        await use(loginPage);
-
-
-    }
-
-})
-
+    });

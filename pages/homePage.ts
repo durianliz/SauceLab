@@ -1,10 +1,11 @@
 import { Page, Locator } from '@playwright/test';
-
-export class HomePage {
+import { AppComponent } from './appComponent';
+export class HomePage extends AppComponent {
 
         page: Page;
         homePageURL: string;
         homePageTitle: Locator;
+        pageTitle: Locator;
 
         cart: Locator;
         burgerMenu: Locator;
@@ -12,6 +13,8 @@ export class HomePage {
         itemsNames: Locator;
         itemsPrice: Locator;
         addToCartButton: Locator;
+        addToCartBackpack: Locator;
+        removeBackpack: Locator;
         X_socialMediaLink: Locator;
         facebook_socialMediaLink: Locator;
         linkedIn_socialMediaLink: Locator;
@@ -22,9 +25,12 @@ export class HomePage {
 
     constructor(page: Page) {
 
+        super(page);
+
         this.page = page;
-        this.homePageURL = 'https://www.saucedemo.com/inventory.html'
+        this.homePageURL = '/inventory.html'
         this.homePageTitle = this.page.getByText('Swag Labs')
+        this.pageTitle = this.page.locator('.title');
 
         this.cart =this.page.locator('.shopping_cart_link');
         this.burgerMenu = this.page.locator('#react-burger-menu-btn');
@@ -32,6 +38,8 @@ export class HomePage {
         this.itemsNames = this.page.locator('.inventory_item_name');
         this.itemsPrice = this.page.locator('.inventory_item_price');
         this.addToCartButton = this.page.locator('btn btn_primary btn_small btn_inventory ');
+        this.addToCartBackpack = this.page.locator('#add-to-cart-sauce-labs-backpack');
+        this.removeBackpack = this.page.locator('#remove-sauce-labs-backpack');
         this.X_socialMediaLink = this.page.locator('.social_twitter');
         this.facebook_socialMediaLink = this.page.locator('[data-test="social-facebook"]');
         this.linkedIn_socialMediaLink = this.page.locator('[data-test="social-linkedin"]');

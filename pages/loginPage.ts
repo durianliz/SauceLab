@@ -1,6 +1,7 @@
 import { Page, Locator } from '@playwright/test';
+import { AppComponent } from './appComponent';
 
-export class LoginPage {
+export class LoginPage  extends AppComponent {
 
     page: Page;
     emailInput: Locator;
@@ -11,12 +12,13 @@ export class LoginPage {
     
     constructor(page: Page) 
     {
+        super(page);
         this.page = page;
         this.emailInput = this.page.locator('#user-name');
         this.passwordInput = this.page.locator('#password');
         this.loginButton = this.page.locator('#login-button');
         this.error = this.page.locator('.error-button');
-        this.logInPageURL = 'https://www.saucedemo.com/';
+        this.logInPageURL = '/';
     }
 
     async navigateToLoginPage() {

@@ -1,7 +1,8 @@
 import { Page, Locator } from '@playwright/test';
+import { AppComponent } from './appComponent';
 
 
-export class CheckOutPageYourInformation {
+export class CheckOutPageYourInformation extends AppComponent {
 
     page: Page;
     firstNameInput: Locator;
@@ -13,6 +14,7 @@ export class CheckOutPageYourInformation {
     
     constructor(page: Page) {
 
+        super(page);
         this.page = page;   
         this.firstNameInput = this.page.locator('#first-name');
         this.lastNameInput = this.page.locator('#last-name');

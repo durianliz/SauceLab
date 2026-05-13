@@ -1,63 +1,43 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../../pages/homePage';
-import { LoginPage } from '../../pages/loginPage';
-import { ShoppingCartPage } from '../../pages/shoppingCart';
+import { testFixture } from '../../fixture/fixture';
+import { expect } from '@playwright/test';
 import { userCredentials } from '../../data/userCredentials';
 import { checkOutData } from '../../data/checkOutData';
-import { CheckOutPageYourInformation } from '../../pages/checkOutYourInformation';
-import { CheckOutPageOverview } from '../../pages/checkOutOverview';
 
 
-test('check that user can complete the checkout process', async ({page}) => {
+testFixture('check that user can complete the checkout process', async ({application}) => {
 
-    const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);
-    const shoppingCartPage = new ShoppingCartPage(page);
-    const checkOutPageYourInformation = new CheckOutPageYourInformation(page);
-    const checkOutPageOverview = new CheckOutPageOverview(page);
-
-    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
-
-    await homePage.addItemToCartByName('Sauce Labs Backpack');
-    await homePage.cart.click();
-    await shoppingCartPage.checkoutButton.click();
+    await application.homePage.addItemToCartByName('Sauce Labs Backpack');
+    await application.homePage.cart.click();
+    await application.shoppingCart.checkoutButton.click();
 
 
-    await checkOutPageYourInformation.firstNameInput.fill(checkOutData.standardData.firstName);
-    await checkOutPageYourInformation.lastNameInput.fill(checkOutData.standardData.lastName);
-    await checkOutPageYourInformation.postalCodeInput.fill(checkOutData.standardData.postalCode);
-    await checkOutPageYourInformation.continueButton.click();
+    await application.checkOutPageYourInformation.firstNameInput.fill(checkOutData.standardData.firstName);
+    await application.checkOutPageYourInformation.lastNameInput.fill(checkOutData.standardData.lastName);
+    await application.checkOutPageYourInformation.postalCodeInput.fill(checkOutData.standardData.postalCode);
+    await application.checkOutPageYourInformation.continueButton.click();
 
-    await expect(checkOutPageOverview.paymentInformationLabel, 'Payment information label should be visible').toHaveText('Payment Information:');
-    await expect(checkOutPageOverview.shippingInformationLabel, 'Shipping information label should be visible').toHaveText('Shipping Information:');
-    await expect(checkOutPageOverview.priceTotalLabel, 'Price total label should be visible').toHaveText('Price Total');
+    await expect(application.checkOutPageOverview.paymentInformationLabel, 'Payment information label should be visible').toHaveText('Payment Information:');
+    await expect(application.checkOutPageOverview.shippingInformationLabel, 'Shipping information label should be visible').toHaveText('Shipping Information:');
+    await expect(application.checkOutPageOverview.priceTotalLabel, 'Price total label should be visible').toHaveText('Price Total');
 
-    await checkOutPageOverview.finishButton.click();
+    await application.checkOutPageOverview.finishButton.click();
 
-    await expect(page.locator('.complete-header'), 'Complete header should be visible').toHaveText('Thank you for your order!');
+    await expect(application.checkOutPageOverview.completeHeader, 'Complete header should be visible').toHaveText('Thank you for your order!');
 
 });
 
 
-test('check that user can cencel the checkout process', async ({page}) => {
+testFixture('check that user can cencel the checkout process', async ({application}) => {
 
-const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);
-    const shoppingCartPage = new ShoppingCartPage(page);
-    const checkOutPageYourInformation = new CheckOutPageYourInformation(page);
-    const checkOutPageOverview = new CheckOutPageOverview(page);
+    await application.homePage.addItemToCartByName('Sauce Labs Backpack');
+    await application.homePage.cart.click();
+    await application.shoppingCart.checkoutButton.click();
 
-    await loginPage.performLogin(userCredentials.standardUser.email, userCredentials.standardUser.password);
+    await expect(application.checkOutPageYourInformation.cencelButton, 'Cancel button should be visible').toBeVisible();
 
-    await homePage.addItemToCartByName('Sauce Labs Backpack');
-    await homePage.cart.click();
-    await shoppingCartPage.checkoutButton.click();
-
-    await expect(checkOutPageYourInformation.cencelButton, 'Cancel button should be visible').toBeVisible();
-
-    await checkOutPageYourInformation.cencelButton.click();
-    await expect(page.locator('.title'), 'Shopping Cart Title should be visible').toHaveText('Your Cart');
-    await expect(shoppingCartPage.checkoutButton, 'Checkout button should be visible').toBeVisible();
+    await application.checkOutPageYourInformation.cencelButton.click();
+    await expect(application.shoppingCart.pageTitle, 'Shopping Cart Title should be visible').toHaveText('Your Cart');
+    await expect(application.shoppingCart.checkoutButton, 'Checkout button should be visible').toBeVisible();
 
 });
 
