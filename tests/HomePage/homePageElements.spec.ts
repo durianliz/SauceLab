@@ -1,10 +1,9 @@
-import { testFixture } from '../../fixture/fixture';
+import { testFixture as test } from '../../fixture/fixture';
 import { expect } from '@playwright/test';
-import { userCredentials } from '../../data/userCredentials';
 
 
 
-testFixture('check that home page elements are visible', async ({application}) =>  {
+test('check that home page elements are visible', async ({application}) =>  {
 
     await expect(application.homePage.homePageTitle, 'home page title should be visible').toBeVisible();
     await expect(application.homePage.cart, 'cart should be visible').toBeVisible();
